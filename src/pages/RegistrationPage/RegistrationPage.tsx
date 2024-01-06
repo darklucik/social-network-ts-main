@@ -1,22 +1,40 @@
-import { Heading } from "../../Typografy/Heading/Heading";
-import { AppButton } from "../../components/UI/AppElements/AppButton";
-import { AppInput } from "../../components/UI/AppElements/AppInput";
-import { RegistrationInfo } from "../../components/registrationInfo/registrationInfo";
-import "./RegistrationPage.scss";
+import React from "react";
+// import "../LoginPage/LoginPage.scss";
+import { Heading } from "../../components/Typography/Heading/Heading";
+import { RegistrationInfo } from "../../components/RegistrationInfo/RegistrationInfo";
+import { AppButton } from "../../components/UI/AppButton/AppButton";
+import { AppInput } from "../../components/UI/AppInput/AppInput";
+import { LinkButton } from "../../components/UI/LinkButton/LinkButton";
+import { RegistrationStyle } from "./RegistrationPage.style";
 
 export const RegistrationPage = () => {
   return (
-    <div className="MainWrapper">
-      <div className="Wrapper">
-        <Heading headingText="Регистрация" headingType="h1" />
-        <AppInput InputType="text" InputPlaceholder="Имя Фамилия" />
-        <AppInput InputType="tel" InputPlaceholder="Ваш номер" />
-        <AppInput InputType="text" InputPlaceholder="Пороль" />
-        <AppInput InputType="text" InputPlaceholder="Город" />
-        <AppInput InputType="text" InputPlaceholder="Электронная почта" />
-        <AppButton ButtonText="Зарегестрироватся" />
-        <RegistrationInfo spanText="Уже есть аккаунт?" hrefText="Войти" pText="Регистрация с помощью"/>
+    <RegistrationStyle>
+      <div className="LoginPage">
+        <Heading headingType="h1" headingText="Регистрация" />
+        <form action="#">
+          <AppInput
+            hasError={false}
+            errorText="Введите имя и фамилию"
+            required
+            placeholder="Имя и фамилия"
+          />
+          <AppInput
+            hasError={false}
+            errorText="Введите номер телефона"
+            required
+            placeholder="Номер телефона"
+          />
+          <AppInput
+            hasError={false}
+            errorText="Введите пароль"
+            required
+            placeholder="Пароль"
+          />
+          <LinkButton path="/main-page" buttonLabel="Создать аккаунт" />
+        </form>
+        <RegistrationInfo text="Уже есть аккаунт?" path="/" text2=" Войти" />
       </div>
-    </div>
+    </RegistrationStyle>
   );
 };

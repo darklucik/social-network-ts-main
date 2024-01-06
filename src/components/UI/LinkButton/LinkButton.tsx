@@ -1,6 +1,5 @@
-
 import { Link } from "react-router-dom";
-import { AppButton,AppButtonProps } from "../UI/AppElements/AppButton";
+import { AppButton, AppButtonProps } from "../AppButton/AppButton";
 
 type LinkType = {
     path: string

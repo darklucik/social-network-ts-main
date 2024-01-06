@@ -1,19 +1,35 @@
 import React from "react";
-import "./LoginPage.scss";
-import { Heading } from "../../Typografy/Heading/Heading";
-import { RegistrationInfo } from "../../components/registrationInfo/registrationInfo";
+// import "./LoginPage.scss";
+import { Heading } from "../../components/Typography/Heading/Heading";
+import { RegistrationInfo } from "../../components/RegistrationInfo/RegistrationInfo";
+import { AppButton } from "../../components/UI/AppButton/AppButton";
+import { AppInput } from "../../components/UI/AppInput/AppInput";
+import { LinkButton } from "../../components/UI/LinkButton/LinkButton";
+import { LoginStyle } from "./LoginPage.style";
 
 export const LoginPage = () => {
   return (
-    <div className="LoginPage">
-      <Heading headingText="Авторизация" headingType="h1" />
+    <LoginStyle>
+      <Heading headingType="h1" headingText="Авторизация" />
       <form action="#">
-        <input type="tel" placeholder="Номер телефона" />
-        <input type="password" placeholder="Пароль" />
-        <button>Войти</button>
+        <AppInput
+          type="text"
+          hasError={false}
+          errorText="Ошибка"
+          required
+          placeholder="Номер телефона"
+        />
+        <AppInput
+          type="password"
+          hasError={false}
+          errorText="Ошибка"
+          required
+          placeholder="Пароль"
+        />
+        <LinkButton path="/main-page" buttonLabel="Войти" />
       </form>
       <a href="#">Забыли пароль?</a>
-      <RegistrationInfo spanText="Нету аккаунта?" hrefText="Зарегестрироватся" pText="Войти с помощью"/>
-    </div>
+      <RegistrationInfo text="У вас нет аккаунта?" path="/registration-page" text2=" Зарегистрироваться"/>
+    </LoginStyle>
   );
 };

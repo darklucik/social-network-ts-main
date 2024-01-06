@@ -1,12 +1,17 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./ProfilePage.scss";
+import { Header } from "../../components/UI/Header/Header";
 
 export const ProfilePage = () => {
   return (
+    <>
+    <Header/>
     <div className="ProfilePage">
       <aside className="LeftSide">
         <nav className="Navbar">
           <ul className="navbar__list">
+            <Link to="/main-page">
             <li className="navbar__item">
               <svg
                 className="icon icon-profile"
@@ -22,6 +27,7 @@ export const ProfilePage = () => {
               <p className="item__name">Моя страница</p>
               <span className="Badge">1</span>
             </li>
+            </Link>
             <li className="navbar__item">
               <svg
                 className="icon icon-news"
@@ -832,6 +838,6 @@ export const ProfilePage = () => {
           </div>
         </div>
       </aside>
-    </div>
+    </div></>
   );
 };

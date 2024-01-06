@@ -1,17 +1,18 @@
-type InfoProps={
-  hrefText: string
-  spanText: string
-  pText: string
+import { Link } from "react-router-dom";
+
+type RegistrationInfoType = {
+  path: string,
+  text: string,
+  text2: string
 }
 
-
-export const RegistrationInfo = ({hrefText,spanText,pText}:InfoProps) => {
-    return (
+export const RegistrationInfo = ({path, text, text2}: RegistrationInfoType) =>{
+    return(
         <div className="registration">
         <span>
-          {spanText} <a href="#">{hrefText}</a>
+          {text}<Link to={path}>{text2}</Link>
         </span>
-        <p>{pText}</p>
+        <p>Войти с помощью</p>
         <div className="icons-wrapper">
           <a className="reg__link google-link" href="#">
             <img src="./img/icons/google.svg" alt="Google" />
@@ -27,5 +28,5 @@ export const RegistrationInfo = ({hrefText,spanText,pText}:InfoProps) => {
           </a>
         </div>
       </div>
-    )
-}
+    );
+};
