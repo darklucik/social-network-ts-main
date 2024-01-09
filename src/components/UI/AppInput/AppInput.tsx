@@ -9,10 +9,16 @@ export const AppInput = ({
   type,
   required,
   placeholder,
+  ...props
 }: AppInputProps) => {
   return (
     <>
-      <input type={type} required={required} placeholder={placeholder} />
+      <input
+        type={type}
+        required={required}
+        placeholder={placeholder}
+        {...props}
+      />
       {hasError && <span>{errorText}</span>}
     </>
   );
