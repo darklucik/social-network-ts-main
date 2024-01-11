@@ -48,6 +48,7 @@ export const LoginPage = () => {
     }
   };
 
+  
   return (
     <LoginStyle>
       <Heading headingType="h1" headingText="Авторизация" />
