@@ -1,5 +1,4 @@
 import React from "react";
-import { Header } from "./components/UI/Header/Header";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
 import { MainPage } from "./pages/MainPage/MainPage";
 import { RegistrationPage } from "./pages/RegistrationPage/RegistrationPage";

@@ -1,19 +1,26 @@
-import {styled, css} from "styled-components";
-import { boolean } from "yup";
+import styled, { css } from "styled-components";
 
-export const StyledInput = styled.input<{ $isError: boolean}>`
-${(props) =>
+export const StyledInput = styled.input<{ $isError: boolean }>`
+    outline: 0;
+    font-family: inherit;
+    padding: 12px 15px;
+    background-color: ${(props) => props.theme.colors.bgc};
+    border-radius: 10px;
+    border: 2px solid ${(props) => props.theme.colors.disabledBgc};
+    width: 100%;
+    margin-bottom: 20px;
+
+    ${(props) =>
     props.$isError &&
     css`
-      border-color: #dc2020;
+      border-color: ${(props) => props.theme.colors.red};
     `}
 `
 
-export const AppInputErrorText = styled.span `
-  display: block;
-  color: #dc2020;
-  margin-top: 4px;
-  text-align: left;
-  margin-bottom: 8px;
-
+export const AppInputErrorText = styled.span`
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 20px;
+    color: red;
+    text-align: left;
 `

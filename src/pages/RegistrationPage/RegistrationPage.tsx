@@ -1,15 +1,19 @@
 import React from "react";
-// import "../LoginPage/LoginPage.scss";
+// import "./LoginPage.scss";
 import { Heading } from "../../components/Typography/Heading/Heading";
-import { RegistrationInfo } from "../../components/RegistrationInfo";
+import { RegistrationInfo } from "../../components/RegistrationInfo/RegistrationInfo";
 import { AppButton } from "../../components/UI/AppButton/AppButton";
 import { AppInput } from "../../components/UI/AppInput/AppInput";
-import { LinkButton } from "../../components/UI/LinkButton/LinkButton";
 import { RegistrationStyle } from "./RegistrationPage.style";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { RootState } from "../../store/store";
+import { authUser } from "../../store/authSlice";
+import { useEffect } from "react";
+import { changeUser } from "../../store/userSlice";
 
 const registrationPageFields = {
   userName: "",
@@ -17,6 +21,15 @@ const registrationPageFields = {
   userPhoneNumber: "",
   userPassword: "",
   userCity: "",
+};
+
+const mockUser = {
+  mail: 'jeremy@gmail.com',
+  phone_number: '972950000',
+  user_id: 1,
+  name: 'Vasya',
+  reg_date: new Date().toISOString,
+  city: 'Mahachkala',
 };
 
 const registrationValidationSchema = yup.object({
@@ -29,11 +42,8 @@ const registrationValidationSchema = yup.object({
     .string()
     .required("Обязательное поле")
     .min(4, "Пароль должен содержать как минимум 4 символа"),
-  userPhoneNumber: yup
-    .string()
-    .required("Обязательное поле")
-    .matches(/^9989\d{8}$/, "Номер не валиден"),
-  userCity: yup.string().required("Обязательное поле"),
+  userPhoneNumber: yup.string().required("Обязательное поле").matches(/^9989\d{8}$/, "Номер не валиден"),
+  userCity: yup.string().required("Обязательное поле")
 });
 
 export const RegistrationPage = () => {
@@ -46,14 +56,21 @@ export const RegistrationPage = () => {
     resolver: yupResolver(registrationValidationSchema),
   });
 
+  const user = useSelector((state: RootState) => state.auth.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const onLoginFormSubmit = (data: any) => {
-    console.log(data);
-    if (data) {
-      navigate("/main-page");
-    }
+    dispatch(authUser(mockUser));
   };
+
+  useEffect(() => {
+    console.log('USER: ', user)
+
+    if(user?.user_id) {
+      navigate('/main-page')
+    }
+  }, [user])
 
   return (
     <RegistrationStyle>

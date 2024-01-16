@@ -1,54 +1,72 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import "./LoginPage.scss";
 import { Heading } from "../../components/Typography/Heading/Heading";
-import { LoginStyle } from "./LoginPage.style";
+import { RegistrationInfo } from "../../components/RegistrationInfo/RegistrationInfo";
+import { AppButton } from "../../components/UI/AppButton/AppButton";
 import { AppInput } from "../../components/UI/AppInput/AppInput";
-import { LinkButton } from "../../components/linkElement/linkText";
-import { Controller, Form, useForm } from "react-hook-form";
-import { RegistrationInfo } from "../../components/RegistrationInfo";
+import { LoginStyle } from "./LoginPage.style";
+import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import * as yup from 'yup'
-import { error } from "console";
+import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { AppButton } from "../../components/UI/AppElements/AppButton";
+import { useDispatch, useSelector } from "react-redux";
+import { changeUser } from "../../store/userSlice";
+import { RootState } from "../../store/store";
 
+const mockUser = {
+  mail: 'jeremy@gmail.com',
+  phone_number: '972950000',
+  user_id: 1,
+  name: 'Vasya',
+  reg_date: new Date().toISOString,
+  city: 'Mahachkala',
+};
+
+const loginPageFields = {
+  userEmail: "",
+  userPassword: "",
+};
+
+const loginValidationSchema = yup.object({
+  userEmail: yup
+    .string()
+    .required("Обязательное поле")
+    .email("Формат должен соответствовать формату email"),
+  userPassword: yup
+    .string()
+    .required("Обязательное поле")
+    .min(4, "Пароль должен содержать как минимум 4 символа"),
+});
 
 export const LoginPage = () => {
-  const loginPageFields = {
-    userEmail: "",
-    userPassword: "",
-  };
-
-  const loginValidationSchema = yup.object({
-    userEmail: yup
-    .string()
-    .required("Required field")
-    .email("Формат должен соответсвовать формату email"),
-    userPassword: yup
-    .string()
-    .required('Required field')
-    .min(4, "Пороль должен содержать как минимум 4 символа!")
-  })
-
   const {
     control,
     formState: { errors },
     handleSubmit,
   } = useForm({
     defaultValues: loginPageFields,
-    resolver: yupResolver(loginValidationSchema)
+    resolver: yupResolver(loginValidationSchema),
   });
 
-  const navigate = useNavigate()
+  const user = useSelector((state: RootState) => state.user.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-
-  const onLoginFormSubmit = (data: any) => {
-    if (data) {
-      navigate ('/main-page')
-    }
+  const onLoginFormSubmit = (data: any) => { 
+    // if (data) {
+    //   navigate("/main-page");
+    // }
+    dispatch(changeUser(mockUser));
   };
 
-  
+  useEffect(() => {
+    console.log('USER: ', user)
+
+    if(user?.user_id) {
+      navigate('/profile-page')
+    }
+  }, [user])
+
   return (
     <LoginStyle>
       <Heading headingType="h1" headingText="Авторизация" />
@@ -58,10 +76,9 @@ export const LoginPage = () => {
           control={control}
           render={({ field }) => (
             <AppInput
-              type="text"
               hasError={!!errors.userEmail}
               errorText={errors.userEmail?.message as string}
-              placeholder="Email"
+              placeholder="Эл. почта"
               {...field}
             />
           )}
@@ -72,14 +89,14 @@ export const LoginPage = () => {
           render={({ field }) => (
             <AppInput
               type="password"
-              hasError={false}
+              hasError={!!errors.userPassword}
               errorText={errors.userPassword?.message as string}
               placeholder="Пароль"
+              {...field}
             />
           )}
         />
-
-          <AppButton type="submit" buttonLabel="Войти" />
+        <AppButton type="submit" buttonLabel="Войти" />
       </form>
       <a href="#">Забыли пароль?</a>
       <RegistrationInfo
