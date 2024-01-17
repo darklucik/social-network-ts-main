@@ -23,6 +23,7 @@ const registrationPageFields = {
   userCity: "",
 };
 
+
 const mockUser = {
   mail: 'jeremy@gmail.com',
   phone_number: '972950000',
