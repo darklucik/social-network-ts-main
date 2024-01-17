@@ -12,15 +12,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
 import { changeUser } from "../../store/userSlice";
 import { RootState } from "../../store/store";
-
-const mockUser = {
-  mail: 'jeremy@gmail.com',
-  phone_number: '972950000',
-  user_id: 1,
-  name: 'Vasya',
-  reg_date: new Date().toISOString,
-  city: 'Mahachkala',
-};
+import { useLoginUserMutation } from "../../store/api/authApi";
 
 const loginPageFields = {
   userEmail: "",
@@ -48,24 +40,19 @@ export const LoginPage = () => {
     resolver: yupResolver(loginValidationSchema),
   });
 
-  const user = useSelector((state: RootState) => state.user.user);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onLoginFormSubmit = (data: any) => { 
-    // if (data) {
-    //   navigate("/main-page");
-    // }
-    dispatch(changeUser(mockUser));
+  const [loginUser, { data: userData }] = useLoginUserMutation();
+
+  const onLoginFormSubmit = (data: any) => {
+    loginUser({ email: data.userEmail, password: data.userPassword });
   };
 
   useEffect(() => {
-    console.log('USER: ', user)
-
-    if(user?.user_id) {
-      navigate('/profile-page')
+    if (userData?.user_id) {
+      navigate("/profile-page");
     }
-  }, [user])
+  }, [userData, navigate]);
 
   return (
     <LoginStyle>
