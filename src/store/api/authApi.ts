@@ -40,7 +40,7 @@ export const authApi = createApi({
     registerUser: builder.mutation<IRegisterUserResponse, IRegisterUserPayload>(
       {
         query: (payload) => ({
-          url: "/regisrtation",
+          url: "/registration",
           method: "POST",
           body: payload,
         }),
