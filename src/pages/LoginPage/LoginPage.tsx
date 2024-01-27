@@ -1,18 +1,16 @@
-import React, { useEffect } from "react";
-// import "./LoginPage.scss";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 import { Heading } from "../../components/Typography/Heading/Heading";
 import { RegistrationInfo } from "../../components/RegistrationInfo/RegistrationInfo";
-import { AppButton } from "../../components/UI/AppButton/AppButton";
 import { AppInput } from "../../components/UI/AppInput/AppInput";
 import { LoginStyle } from "./LoginPage.style";
 import { useForm, Controller } from "react-hook-form";
+import { AppButton } from "../../components/UI/AppButton/AppButton";
 import { useNavigate } from "react-router-dom";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useDispatch, useSelector } from "react-redux";
-import { changeUser } from "../../store/userSlice";
-import { RootState } from "../../store/store";
-import { useLoginUserMutation } from "../../store/api/authApi";
+import { useEffect } from "react";
+import { useLoginUserMutation } from "../../store/Api/authApi";
+
 
 const loginPageFields = {
   userEmail: "",
@@ -27,7 +25,7 @@ const loginValidationSchema = yup.object({
   userPassword: yup
     .string()
     .required("Обязательное поле")
-    .min(4, "Пароль должен содержать как минимум 4 символа"),
+    .min(4, "Пароль должен содержать как минимум 4 символа!"),
 });
 
 export const LoginPage = () => {
@@ -42,17 +40,21 @@ export const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const [loginUser, { data: userData }] = useLoginUserMutation();
+  const [loginUser, {data: userData}] = useLoginUserMutation()
 
   const onLoginFormSubmit = (data: any) => {
-    loginUser({ email: data.userEmail, password: data.userPassword });
+    loginUser({email: data.userEmail, password: data.userPassword})
   };
 
   useEffect(() => {
+    console.log("USER: ", userData);
+
     if (userData?.user_id) {
       navigate("/profile-page");
     }
   }, [userData, navigate]);
+
+  console.log("errors", errors);
 
   return (
     <LoginStyle>
@@ -63,9 +65,9 @@ export const LoginPage = () => {
           control={control}
           render={({ field }) => (
             <AppInput
-              hasError={!!errors.userEmail}
+              hasError={!!errors.userEmail?.message}
               errorText={errors.userEmail?.message as string}
-              placeholder="Эл. почта"
+              placeholder="email"
               {...field}
             />
           )}
@@ -76,7 +78,7 @@ export const LoginPage = () => {
           render={({ field }) => (
             <AppInput
               type="password"
-              hasError={!!errors.userPassword}
+              hasError={!!errors.userPassword?.message}
               errorText={errors.userPassword?.message as string}
               placeholder="Пароль"
               {...field}
@@ -86,11 +88,7 @@ export const LoginPage = () => {
         <AppButton type="submit" buttonLabel="Войти" />
       </form>
       <a href="#">Забыли пароль?</a>
-      <RegistrationInfo
-        text="У вас нет аккаунта?"
-        path="/registration-page"
-        text2=" Зарегистрироваться"
-      />
+      <RegistrationInfo path="/registration-page" text="Нет аккаунта" text2="Зарегистрироваться"/>
     </LoginStyle>
   );
 };

@@ -1,35 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { baseUrl } from "../../utils/baseUrl";
+import { PostItem } from "../../Types/post";
 
-interface postItem {
-  main_text: string;
-  user_id: number;
-  id: number;
-  reg_date: string;
-  user_fk: {
-    name: string;
-    user_city: string;
-    id: number;
-    password: number;
-    email: string;
-    phone_number: string;
-    reg_date: string;
-  };
-  photos: [
-    {
-      photo_id: 8;
-      photo_url: "/api/photo_api/photos/8.jpg";
-    }
-  ];
-  comments: [];
-}
-
-interface GetPostListResult {
+interface getPostListResult {
   status: number;
-  message: postItem[];
+  message: PostItem[];
 }
 
-export const postApi = createApi({
+export const postApi = createApi({ 
   reducerPath: "postApi",
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (builder) => ({
@@ -48,5 +26,4 @@ export const postApi = createApi({
   }),
 });
 
-
-export const {useGetPostListQuery} = postApi;
+export const { useGetPostListQuery } = postApi;

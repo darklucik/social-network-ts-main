@@ -1,19 +1,19 @@
 import React from "react";
-import "./MainPage.scss";
 import { Header } from "../../components/UI/Header/Header";
-import { LeftSide } from "./leftside";
-import { RightSide } from "./rightSide";
-import { MainContent } from "./mainContent";
+import { MainStyle } from "./MainPage.style";
+import { LeftSide } from "../../components/LeftSide";
+import { RightSide } from "../../components/RightSide";
+import { MainContent } from "../../components/MainContent";
 
 export const MainPage = () => {
   return (
-    <>
+    <MainStyle>
       <Header />
       <div className="MainPage">
         <LeftSide />
         <MainContent />
-        <RightSide /> 
+        <RightSide />
       </div>
-    </>
+    </MainStyle>
   );
 };

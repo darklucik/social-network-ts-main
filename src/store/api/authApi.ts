@@ -55,7 +55,7 @@ export const authApi = createApi({
     }),
     getUser: builder.query<IGetUserResponse, string>({
       query: (userId) => ({
-        url: `/user?user_id=${userId}`,
+        url: `/user/user_id=${userId}`,
       }),
     }),
   }),

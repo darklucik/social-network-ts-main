@@ -7,12 +7,10 @@ import { AppInput } from "../../components/UI/AppInput/AppInput";
 import { RegistrationStyle } from "./RegistrationPage.style";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { RootState } from "../../store/store";
 import { useEffect } from "react";
-import { useRegisterUserMutation } from "../../store/api/authApi";
+import { useRegisterUserMutation } from "../../store/Api/authApi";
 
 const registrationPageFields = {
   userName: "",
@@ -32,11 +30,8 @@ const registrationValidationSchema = yup.object({
     .string()
     .required("Обязательное поле")
     .min(4, "Пароль должен содержать как минимум 4 символа"),
-  userPhoneNumber: yup
-    .string()
-    .required("Обязательное поле")
-    .matches(/^9989\d{8}$/, "Номер не валиден"),
-  userCity: yup.string().required("Обязательное поле"),
+  userPhoneNumber: yup.string().required("Обязательное поле").matches(/^9989\d{8}$/, "Номер не валиден"),
+  userCity: yup.string().required("Обязательное поле")
 });
 
 export const RegistrationPage = () => {
@@ -50,25 +45,19 @@ export const RegistrationPage = () => {
   });
 
   const navigate = useNavigate();
-  const [registerUser, { data: userData }] = useRegisterUserMutation();
+  const [registerUser, {data: userData}] = useRegisterUserMutation();
 
   const onLoginFormSubmit = (data: any) => {
-    registerUser({
-      name: data.userName,
-      password: data.userPassword,
-      email: data.userEmail,
-      phone_number: data.userPhoneNumber,
-      user_city: data.userCity,
-    });
+    registerUser({name: data.userName, password: data.userPassword, email: data.userEmail, phone_number: data.userPhoneNumber, user_city: data.userCity})
   };
 
   useEffect(() => {
-    console.log("USER: ", userData);
+    console.log('USER: ', userData)
 
-    if (userData?.user_id) {
-      navigate("/");
+    if(userData?.user_id) {
+      navigate('/')
     }
-  }, [userData, navigate]);
+  }, [userData, navigate])
 
   return (
     <RegistrationStyle>
@@ -138,7 +127,11 @@ export const RegistrationPage = () => {
         <AppButton type="submit" buttonLabel="Зарегистрироваться" />
       </form>
       <a href="#">Забыли пароль?</a>
-      <RegistrationInfo text="Уже есть аккаунт?" path="/" text2=" Войти" />
+      <RegistrationInfo
+        text="Уже есть аккаунт?"
+        path="/"
+        text2=" Войти"
+      />
     </RegistrationStyle>
   );
 };
